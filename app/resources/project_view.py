@@ -4,18 +4,14 @@ from app.resources.service_resource import project
 
 class ProjectView(HTTPMethodView):
 
-    @staticmethod
-    async def get(request):
+    async def get(self, request):
         return await project(request)
 
-    @staticmethod
-    async def post(request):
+    async def post(self, request):
         return await project(request)
 
-    @staticmethod
-    async def put(request):
+    async def put(self, request):
         return await project(request)
 
-    @staticmethod
-    async def delete(request):
+    async def delete(self, request):
         return await project(request)

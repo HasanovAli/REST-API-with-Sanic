@@ -8,5 +8,5 @@ db = {
     "password": "postgres",
     "host": "localhost",
     "port": 5432,
-    "db_name": "postgres"
+    "db_name": "ss_train"
 }
