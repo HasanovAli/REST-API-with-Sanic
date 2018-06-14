@@ -11,14 +11,11 @@ invoices = Table('invoices', metadata,
 
 users = Table('users', metadata,
               Column('id', Integer, autoincrement=True, primary_key=True),
-              Column('login', String, unique=True),
-              Column('password_hash', String))
+              Column('login', String, unique=True, nullable=False),
+              Column('password_hash', String, nullable=False))
 
 
 projects = Table('projects', metadata,
-                 Column('id', autoincrement=True, primary_key=True),
+                 Column('id', Integer, autoincrement=True, primary_key=True),
                  Column('user_id', Integer, ForeignKey('users.id')),
-                 Column('date', Date))
-
-
-
+                 Column('date', Date, nullable=False))
