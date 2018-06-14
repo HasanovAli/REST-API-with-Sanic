@@ -21,7 +21,8 @@ class Projects:
     async def insert_project(user_id, date):
         async with create_engine(connection_url) as engine:
             async with engine.acquire() as conn:
-                await conn.execute(projects.insert().values(user_id=user_id, date=date))
+                query = projects.insert().values(user_id=user_id, date=date)
+                await conn.execute(query)
 
     @staticmethod
     async def delete_project(project_id=None):
@@ -31,4 +32,11 @@ class Projects:
                     query = projects.delete().where(projects.c.id == int(project_id))
                 else:
                     query = projects.delete()
+                await conn.execute(query)
+
+    @staticmethod
+    async def update_project(project_id, user_id, date):
+        async with create_engine(connection_url) as engine:
+            async with engine.acquire() as conn:
+                query = projects.update().where(projects.c.id == project_id).values(user_id=user_id, date=date)
                 await conn.execute(query)
