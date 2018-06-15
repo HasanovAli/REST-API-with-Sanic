@@ -33,5 +33,3 @@ class ProjectView(HTTPMethodView):
     async def delete(self, request, project_id):
         await Projects.delete_project(project_id)
         return sanic_json({'message': 'project has been deleted'})
-
-

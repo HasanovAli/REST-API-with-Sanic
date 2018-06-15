@@ -4,6 +4,7 @@ from app.services.database import connection_url
 
 
 class Projects:
+
     @staticmethod
     async def get_project(project_id=None):
         async with create_engine(connection_url) as engine:
