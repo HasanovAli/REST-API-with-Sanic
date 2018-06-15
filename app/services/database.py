@@ -2,7 +2,6 @@ from aiopg.sa import create_engine
 from sqlalchemy import MetaData
 from app.config import db
 
-
 connection_url = 'user={user} host={host} dbname={name} password={password}'.format(**db)
 
 metadata = MetaData()
