@@ -1,6 +1,7 @@
 from sanic.views import HTTPMethodView
 from sanic.response import json as sanic_json
 from app.domain.projects import Projects
+from app.services.validation import ProjectsSchema
 
 
 class ProjectsView(HTTPMethodView):
@@ -10,8 +11,9 @@ class ProjectsView(HTTPMethodView):
         return sanic_json(result)
 
     async def post(self, request):
-        await Projects.insert_project(user_id=request.headers.get('user_id'),
-                                      date=request.headers.get('date'))
+        data = ProjectsSchema().load(request.headers)
+        await Projects.insert_project(user_id=data[0]['user_id'],
+                                      date=data[0]['date'])
         return sanic_json({'message': 'project has been added'})
 
     async def delete(self, request):
@@ -26,8 +28,9 @@ class ProjectView(HTTPMethodView):
         return sanic_json(result)
 
     async def put(self, request, project_id):
-        await Projects.update_project(project_id, user_id=request.headers.get('user_id'),
-                                      date=request.headers.get('date'))
+        data = ProjectsSchema().load(request.form)
+        await Projects.update_project(project_id, user_id=data[0]['user_id'],
+                                      date=data[0]['date'])
         return sanic_json({'message': 'project has been updated'})
 
     async def delete(self, request, project_id):

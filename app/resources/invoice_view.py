@@ -1,6 +1,7 @@
 from sanic.views import HTTPMethodView
 from sanic.response import json as sanic_json
 from app.domain.invoices import Invoices
+from app.services.validation import InvoicesSchema
 
 
 class InvoicesView(HTTPMethodView):
@@ -10,8 +11,9 @@ class InvoicesView(HTTPMethodView):
         return sanic_json(result)
 
     async def post(self, request):
-        await Invoices.insert_invoices(project_id=request.headers.get('project_id'),
-                                       description=request.headers.get('description'))
+        data = InvoicesSchema().load(request.headers)
+        await Invoices.insert_invoices(project_id=data[0]['project_id'],
+                                       description=data[0]['description'])
         return sanic_json({'message': 'invoice has been added'})
 
     async def delete(self, request):
@@ -26,8 +28,9 @@ class InvoiceView(HTTPMethodView):
         return sanic_json(result)
 
     async def put(self, request, invoice_id):
-        await Invoices.update_invoice(invoice_id, project_id=request.headers.get('project_id'),
-                                      description=request.headers.get('description'))
+        data = InvoicesSchema().load(request.headers)
+        await Invoices.update_invoice(invoice_id, project_id=data[0]['project_id'],
+                                      description=data[0]['description'])
         return sanic_json({'message': 'invoice has been updated'})
 
     async def delete(self, request, invoice_id):
