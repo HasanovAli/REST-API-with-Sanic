@@ -11,7 +11,7 @@ class UsersView(HTTPMethodView):
 
     async def post(self, request):
         await Users.insert_user(login=request.headers.get('login'),
-                                password=request.headers.get('password_hash'))
+                                password=request.headers.get('password'))
         return sanic_json({'message': 'user has been added'})
 
     async def delete(self, request):
@@ -27,7 +27,7 @@ class UserView(HTTPMethodView):
 
     async def put(self, request, user_id):
         await Users.update_user(user_id, login=request.headers.get('login'),
-                                password_hash=request.headers.get('date'))
+                                password=request.headers.get('password'))
         return sanic_json({'message': 'user has been updated'})
 
     async def delete(self, request, login):
