@@ -1,10 +1,22 @@
+import asyncio_redis
 from aiopg.sa import create_engine
 from sqlalchemy import MetaData
-from app.config import db
+from app.config import db, redis
 
 connection_url = 'user={user} host={host} dbname={name} password={password}'.format(**db)
 
 metadata = MetaData()
+
+
+class RedisEngine:
+    _engine = None
+
+    @classmethod
+    async def get_redis_engine(cls):
+        if not cls._engine:
+            cls._engine = await asyncio_redis.Connection.create(host=redis['host'],
+                                                                port=redis['port'])
+        return cls._engine
 
 
 async def create_tables():
