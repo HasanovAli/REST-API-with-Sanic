@@ -35,7 +35,7 @@ async def verify_token(request):
     if stored_token and stored_token == token:
         return True
     else:
-        raise Unauthorized('Authorization error')
+        raise Unauthorized('Unauthorized user')
 
 
 async def token_response(token):
@@ -55,6 +55,6 @@ async def verify_token_in_redis(token):
         await connection.get(token)
         return token
     except TypeError:
-        raise Unauthorized('Authorization error')
+        raise Unauthorized('Unauthorized user')
 
 
